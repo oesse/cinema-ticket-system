@@ -18,7 +18,11 @@ const Seat = ({ type }) => (
 
 const Row = ({ seats }) => (
   <div className="row">
-    {[...seats].map(seatType => <Seat type={seatType} />)}
+    {
+      // in this case the seat index is an identity for the seat
+      // eslint-disable-next-line react/no-array-index-key
+      [...seats].map((seatType, idx) => <Seat key={idx} type={seatType} />)
+    }
   </div>
 )
 
@@ -56,7 +60,11 @@ export default class Showing extends React.Component {
       <div className="showing">
         <h1>Cinema Ticket System</h1>
         <p>Choose your seats</p>
-        {floorPlan.map(seats => <Row seats={seats} />)}
+        {
+          // in this case the row index is an identity for the row
+          // eslint-disable-next-line react/no-array-index-key
+          floorPlan.map((seats, idx) => <Row key={idx} seats={seats} />)
+        }
       </div>)
   }
 }
