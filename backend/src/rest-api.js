@@ -1,7 +1,10 @@
 import express from 'express'
 import Router from 'express-promise-router'
+import cors from 'cors'
 
 const restApi = express()
+restApi.use(cors())
+
 const router = Router()
 
 router.get('/floorplan', (req, res) => {
