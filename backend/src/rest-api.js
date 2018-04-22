@@ -49,6 +49,16 @@ router.post('/reserve-seat', async (req, res) => {
   res.json(floorPlan)
 })
 
+router.post('/cancel-reservation', async (req, res) => {
+  const { row, number } = req.body
+  const showing = await getShowing()
+  showing.cancelReservation(row, number)
+  await showing.save()
+
+  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations)
+  res.json(floorPlan)
+})
+
 restApi.use(router)
 restApi.use(logRequestErrors)
 

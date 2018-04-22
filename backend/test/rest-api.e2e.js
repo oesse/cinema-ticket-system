@@ -44,3 +44,23 @@ describe('POST /reserve-seat', () => {
     expect(firstRow).to.equal('  rfrfffffff')
   })
 })
+
+describe('POST /cancel-reservation', () => {
+  beforeEach('reserve seat', async () => {
+    await request(api)
+      .post('/reserve-seat')
+      .send({ row: 1, number: 1 })
+      .expect(OK)
+  })
+
+  it('clears the reservation for the given seat', async () => {
+    const { body } = await request(api)
+      .post('/cancel-reservation')
+      .send({ row: 1, number: 1 })
+      .expect(OK)
+
+    const [firstRow] = body
+    const seat = [...firstRow].find(seatOrPlaceholder => seatOrPlaceholder !== ' ')
+    expect(seat).to.equal('f')
+  })
+})

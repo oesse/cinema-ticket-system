@@ -17,6 +17,14 @@ class ShowingClass {
     this.reservations[key] = { row, number }
     this.markModified('reservations')
   }
+  cancelReservation(row, number) {
+    const key = `${row}.${number}`
+    if (!this.reservations || !this.reservations[key]) {
+      return
+    }
+    delete this.reservations[key]
+    this.markModified('reservations')
+  }
 }
 showingSchema.loadClass(ShowingClass)
 
