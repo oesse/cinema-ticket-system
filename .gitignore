@@ -1,1 +1,3 @@
 node_modules/
+/frontend/lib
+/backend/lib
