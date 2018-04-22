@@ -71,6 +71,13 @@ export default class Showing extends React.Component {
         .then(({ body: floorPlan }) => {
           this.setState({ floorPlan })
         })
+    } else {
+      request
+        .post(`${backendUriPrefix}/cancel-reservation`)
+        .send({ row, number })
+        .then(({ body: floorPlan }) => {
+          this.setState({ floorPlan })
+        })
     }
   }
   render() {
