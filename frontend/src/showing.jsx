@@ -2,8 +2,8 @@ import React from 'react'
 import classnames from 'classnames'
 import request from 'superagent'
 
+import Spinner from './spinner'
 import './showing.styl'
-import './spinner.styl'
 
 const backendUriPrefix = 'http://localhost:8081'
 
@@ -25,8 +25,6 @@ const Row = ({ seats }) => (
     }
   </div>
 )
-
-const Spinner = () => <div className="spinner" />
 
 export default class Showing extends React.Component {
   constructor(props) {
