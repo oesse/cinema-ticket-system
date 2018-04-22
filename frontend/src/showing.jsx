@@ -64,21 +64,13 @@ export default class Showing extends React.Component {
   }
   toggleSeat(seat) {
     const { row, number, type } = seat
-    if (type === 'f') {
-      request
-        .post(`${backendUriPrefix}/reserve-seat`)
-        .send({ row, number })
-        .then(({ body: floorPlan }) => {
-          this.setState({ floorPlan })
-        })
-    } else {
-      request
-        .post(`${backendUriPrefix}/cancel-reservation`)
-        .send({ row, number })
-        .then(({ body: floorPlan }) => {
-          this.setState({ floorPlan })
-        })
-    }
+    const endpoint = type === 'f' ? 'reserve-seat' : 'cancel-reservation'
+    request
+      .post(`${backendUriPrefix}/${endpoint}`)
+      .send({ row, number })
+      .then(({ body: floorPlan }) => {
+        this.setState({ floorPlan })
+      })
   }
   render() {
     if (this.state.isPending) {
