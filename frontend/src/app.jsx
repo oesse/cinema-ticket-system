@@ -3,11 +3,11 @@ import Showing from './showing'
 import './base.styl'
 
 const floorPlan = [
-  '  ffffffffff  ',
-  ' ffffffffffff ',
-  'ffffffffffffff',
-  ' ffffffffffff ',
-  '  ffffffffff  ',
+  '  ffffffffff',
+  ' fffffffffff',
+  ' ffffffffffff',
+  ' fffffffffff',
+  '  ffffffffff',
 ]
 
 export default () => <Showing floorPlan={floorPlan} />
