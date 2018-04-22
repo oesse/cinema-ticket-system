@@ -7,7 +7,7 @@ import withSeatNumbers from './with-seat-numbers'
 import Spinner from './spinner'
 import './showing.styl'
 
-const backendUriPrefix = 'http://localhost:8081'
+const backendUriPrefix = process.env.BACKEND_URI_PREFIX || 'http://localhost:8081'
 const userId = uuid()
 
 const Seat = ({
