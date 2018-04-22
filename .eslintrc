@@ -1,0 +1,27 @@
+{
+  "extends": "airbnb",
+  "plugins": ["babel"],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "semi-style": ["error", "first"],
+    "import/prefer-default-export": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/test/**/*.spec.js",
+        "**/test/**/*.e2e.js",
+        "**/test/hooks/**/*.js"
+      ],
+      "env": {
+        "mocha": true
+      },
+      "rules": {
+        "import/no-extraneous-dependencies": "off"
+      }
+    }
+  ]
+}
