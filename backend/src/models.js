@@ -10,15 +10,17 @@ const showingSchema = mongoose.Schema({
   },
 })
 class ShowingClass {
-  reserveSeat(row, number) {
+  reserveSeat(userId, row, number) {
     const key = `${row}.${number}`
     if (!this.reservations) {
       this.reservations = {}
     }
-    this.reservations[key] = { row, number, date: now() }
+    this.reservations[key] = {
+      userId, row, number, date: now(),
+    }
     this.markModified('reservations')
   }
-  cancelReservation(row, number) {
+  cancelReservation(userId, row, number) {
     const key = `${row}.${number}`
     if (!this.reservations || !this.reservations[key]) {
       return

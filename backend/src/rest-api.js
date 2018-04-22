@@ -43,28 +43,29 @@ const floorPlanLayout = [
 ]
 
 router.get('/floorplan', async (req, res) => {
+  const { userId } = req.query
   const showing = await getShowing()
-  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations)
+  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations, userId)
   res.json(floorPlan)
 })
 
 router.post('/reserve-seat', async (req, res) => {
-  const { row, number } = req.body
+  const { row, number, userId } = req.body
   const showing = await getShowing()
-  showing.reserveSeat(row, number)
+  showing.reserveSeat(userId, row, number)
   await showing.save()
 
-  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations)
+  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations, userId)
   res.json(floorPlan)
 })
 
 router.post('/cancel-seat', async (req, res) => {
-  const { row, number } = req.body
+  const { row, number, userId } = req.body
   const showing = await getShowing()
-  showing.cancelReservation(row, number)
+  showing.cancelReservation(userId, row, number)
   await showing.save()
 
-  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations)
+  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations, userId)
   res.json(floorPlan)
 })
 
