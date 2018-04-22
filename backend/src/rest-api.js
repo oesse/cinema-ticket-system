@@ -25,7 +25,7 @@ restApi.use(bodyParser.json())
 
 const router = Router()
 
-const floorPlan = [
+const floorPlanLayout = [
   '  ffffffffff',
   ' fffffffffff',
   ' ffffffffffff',
@@ -33,7 +33,9 @@ const floorPlan = [
   '  ffffffffff',
 ]
 
-router.get('/floorplan', (req, res) => {
+router.get('/floorplan', async (req, res) => {
+  const showing = await getShowing()
+  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations)
   res.json(floorPlan)
 })
 
@@ -41,8 +43,10 @@ router.post('/reserve-seat', async (req, res) => {
   const { row, number } = req.body
   const showing = await getShowing()
   showing.reserveSeat(row, number)
+  await showing.save()
 
-  res.json(getReservedFloorPlan(floorPlan, showing.reservations))
+  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations)
+  res.json(floorPlan)
 })
 
 restApi.use(router)

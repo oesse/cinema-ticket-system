@@ -24,4 +24,23 @@ describe('POST /reserve-seat', () => {
     const seat = [...firstRow].find(seatOrPlaceholder => seatOrPlaceholder !== ' ')
     expect(seat).to.equal('r')
   })
+
+  it('persists reservations for for multiple reservations', async () => {
+    await request(api)
+      .post('/reserve-seat')
+      .send({ row: 1, number: 1 })
+      .expect(OK)
+
+    await request(api)
+      .post('/reserve-seat')
+      .send({ row: 1, number: 3 })
+      .expect(OK)
+
+    const { body } = await request(api)
+      .get('/floorplan')
+      .expect(OK)
+
+    const [firstRow] = body
+    expect(firstRow).to.equal('  rfrfffffff')
+  })
 })
