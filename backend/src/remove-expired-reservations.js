@@ -1,8 +1,10 @@
-function isExpired(date, timeLimitInMinutes, now) {
-  return date.plusMinutes(timeLimitInMinutes).compareTo(now) > 0
-}
+import { isExpired, now as getNow } from './time'
 
-export default function removeExpiredReservations(reservations, timeLimitInMinutes, now) {
+export default function removeExpiredReservations(
+  reservations,
+  timeLimitInMinutes,
+  now = getNow(),
+) {
   const filteredEntries = Object.entries(reservations)
     .filter(([, value]) => isExpired(value.date, timeLimitInMinutes, now))
 
