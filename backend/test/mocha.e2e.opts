@@ -1,0 +1,4 @@
+--require babel-register
+--delay
+--exit
+test/**/*.e2e.js
