@@ -20,12 +20,13 @@ function replaceRowAt(floorPlan, rowNumber, newRow) {
   return [...floorPlan.slice(0, rowNumber - 1), newRow, ...floorPlan.slice(rowNumber)]
 }
 
-export default function getReservedFloorPlan(floorPlanLayout, reserverations) {
+export default function getReservedFloorPlan(floorPlanLayout, reserverations, userId) {
   const reservationKeys = Object.keys(reserverations)
 
   return reservationKeys.reduce((floorPlan, key) => {
-    const { row, number } = reserverations[key]
-    const newRow = replaceSeatAt(floorPlan[row - 1], number - 1, 'r')
+    const { row, number, userId: resUserId } = reserverations[key]
+    const reservationSign = userId === resUserId ? 'r' : 'n'
+    const newRow = replaceSeatAt(floorPlan[row - 1], number - 1, reservationSign)
     return replaceRowAt(floorPlan, row, newRow)
   }, floorPlanLayout)
 }

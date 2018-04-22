@@ -47,4 +47,13 @@ describe('getReservedFloorPlan', () => {
       })
     })
   })
+
+  context('when userId does not match reservation', () => {
+    it('returns a new floorplan with the reserved seat marked', () => {
+      const floorPlan = ['fff']
+      const reservations = { 1.1: { row: 1, number: 1, userId: 'otherUserId' } }
+      const newFloorPlan = getReservedFloorPlan(floorPlan, reservations, userId)
+      expect(newFloorPlan).to.eql(['nff'])
+    })
+  })
 })
