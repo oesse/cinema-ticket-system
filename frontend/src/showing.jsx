@@ -2,27 +2,42 @@ import React from 'react'
 import classnames from 'classnames'
 import request from 'superagent'
 
+import withSeatNumbers from './with-seat-numbers'
 import Spinner from './spinner'
 import './showing.styl'
 
 const backendUriPrefix = 'http://localhost:8081'
 
-const Seat = ({ type }) => (
-  <div className={classnames(
-      'seat',
-      { 'seat-free': type === 'f' },
-      { 'seat-placeholder': type === ' ' },
-    )}
-  />
-)
+const Seat = ({
+  row, number, type, onClick,
+}) => {
+  const handleClick = type !== ' '
+    ? () => onClick({ row, number, type })
+    : undefined
 
-const Row = ({ seats }) => (
+  return (
+    <div
+      className={classnames(
+        'seat',
+        { 'seat-free': type === 'f' },
+        { 'seat-placeholder': type === ' ' },
+      )}
+      onClick={handleClick}
+    />
+  )
+}
+
+
+const Row = ({ row, seats, onClick }) => (
   <div className="row">
-    {
-      // in this case the seat index is an identity for the seat
-      // eslint-disable-next-line react/no-array-index-key
-      [...seats].map((seatType, idx) => <Seat key={idx} type={seatType} />)
-    }
+    {withSeatNumbers(seats)
+        .map(({ number, type }, idx) => (<Seat
+          key={idx}
+          row={row}
+          number={number}
+          type={type}
+          onClick={onClick}
+        />))}
   </div>
 )
 
@@ -30,6 +45,7 @@ export default class Showing extends React.Component {
   constructor(props) {
     super(props)
     this.state = { isPending: true }
+    this.toggleSeat = this.toggleSeat.bind(this)
   }
   componentDidMount() {
     this.loadFloorplan()
@@ -45,6 +61,9 @@ export default class Showing extends React.Component {
         this.setState({ isPending: false, hasError: true })
       })
   }
+  toggleSeat(seat) {
+    console.log(seat)
+  }
   render() {
     if (this.state.isPending) {
       return <Spinner />
@@ -59,9 +78,12 @@ export default class Showing extends React.Component {
         <h1>Cinema Ticket System</h1>
         <p>Choose your seats</p>
         {
-          // in this case the row index is an identity for the row
-          // eslint-disable-next-line react/no-array-index-key
-          floorPlan.map((seats, idx) => <Row key={idx} seats={seats} />)
+          floorPlan.map((seats, idx) => (<Row
+            key={idx}
+            row={idx + 1}
+            seats={seats}
+            onClick={this.toggleSeat}
+          />))
         }
       </div>)
   }
