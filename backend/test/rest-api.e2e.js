@@ -12,3 +12,16 @@ describe('GET /floorplan', () => {
     expect(body).to.be.an('array').which.has.length.above(1)
   })
 })
+
+describe('POST /reserve-seat', () => {
+  it.skip('sets the given seat to reserved and returns the new floorplan', async () => {
+    const { body } = await request(api)
+      .post('/reserve-seat')
+      .send({ row: 1, number: 1 })
+      .expect(OK)
+    expect(body).to.be.an('array').which.has.length.above(1)
+    const [firstRow] = body
+    const seat = [...firstRow].find(seatOrPlaceholder => seatOrPlaceholder !== ' ')
+    expect(seat).to.equal('r')
+  })
+})
