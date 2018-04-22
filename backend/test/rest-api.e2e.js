@@ -45,7 +45,7 @@ describe('POST /reserve-seat', () => {
   })
 })
 
-describe('POST /cancel-reservation', () => {
+describe('POST /cancel-seat', () => {
   beforeEach('reserve seat', async () => {
     await request(api)
       .post('/reserve-seat')
@@ -55,7 +55,7 @@ describe('POST /cancel-reservation', () => {
 
   it('clears the reservation for the given seat', async () => {
     const { body } = await request(api)
-      .post('/cancel-reservation')
+      .post('/cancel-seat')
       .send({ row: 1, number: 1 })
       .expect(OK)
 

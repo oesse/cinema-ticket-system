@@ -64,7 +64,7 @@ export default class Showing extends React.Component {
   }
   toggleSeat(seat) {
     const { row, number, type } = seat
-    const endpoint = type === 'f' ? 'reserve-seat' : 'cancel-reservation'
+    const endpoint = type === 'f' ? 'reserve-seat' : 'cancel-seat'
     request
       .post(`${backendUriPrefix}/${endpoint}`)
       .send({ row, number })

@@ -49,7 +49,7 @@ router.post('/reserve-seat', async (req, res) => {
   res.json(floorPlan)
 })
 
-router.post('/cancel-reservation', async (req, res) => {
+router.post('/cancel-seat', async (req, res) => {
   const { row, number } = req.body
   const showing = await getShowing()
   showing.cancelReservation(row, number)
