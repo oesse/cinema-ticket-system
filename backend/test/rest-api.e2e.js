@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { OK, CONFLICT } from 'http-status-codes'
+import { OK, CONFLICT, FORBIDDEN } from 'http-status-codes'
 import request from 'supertest'
 
 import api from '../src/rest-api'
@@ -80,5 +80,14 @@ describe('POST /cancel-seat', () => {
     const [firstRow] = body
     const seat = [...firstRow].find(seatOrPlaceholder => seatOrPlaceholder !== ' ')
     expect(seat).to.equal('f')
+  })
+
+  context('when seat is reserved by someone else', () => {
+    it('returns FORBIDDEN', async () => {
+      await request(api)
+        .post('/cancel-seat')
+        .send({ row: 1, number: 1, userId: 'otherUserId' })
+        .expect(FORBIDDEN)
+    })
   })
 })

@@ -32,6 +32,11 @@ class ShowingClass {
     if (!this.reservations || !this.reservations[key]) {
       return
     }
+    if (userId !== this.reservations[key].userId) {
+      const err = new Error('seat reservation by other user')
+      err.type = 'reserved-by-other-user'
+      throw err
+    }
     delete this.reservations[key]
     this.markModified('reservations')
   }

@@ -2,7 +2,7 @@ import express from 'express'
 import Router from 'express-promise-router'
 import bodyParser from 'body-parser'
 import cors from 'cors'
-import { CONFLICT } from 'http-status-codes'
+import { CONFLICT, FORBIDDEN } from 'http-status-codes'
 
 import { logRequestErrors } from './logger'
 import { Showing } from './models'
@@ -70,11 +70,19 @@ router.post('/reserve-seat', async (req, res) => {
 router.post('/cancel-seat', async (req, res) => {
   const { row, number, userId } = req.body
   const showing = await getShowing()
-  showing.cancelReservation(userId, row, number)
-  await showing.save()
+  try {
+    showing.cancelReservation(userId, row, number)
+    await showing.save()
 
-  const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations, userId)
-  res.json(floorPlan)
+    const floorPlan = getReservedFloorPlan(floorPlanLayout, showing.reservations, userId)
+    res.json(floorPlan)
+  } catch (err) {
+    if (err.type === 'reserved-by-other-user') {
+      res.sendStatus(FORBIDDEN)
+    } else {
+      throw err
+    }
+  }
 })
 
 restApi.use(router)
