@@ -2,6 +2,8 @@ import express from 'express'
 import Router from 'express-promise-router'
 import cors from 'cors'
 
+import { logRequestErrors } from './logger'
+
 const restApi = express()
 restApi.use(cors())
 
@@ -20,5 +22,6 @@ router.get('/floorplan', (req, res) => {
 })
 
 restApi.use(router)
+restApi.use(logRequestErrors)
 
 export default restApi

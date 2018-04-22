@@ -14,3 +14,10 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 export default logger
+
+export function logRequestErrors(err, req, res, next) {
+  logger.error({ req, res, err })
+  // eslint-disable-next-line no-console
+  if (process.env.NODE_ENV === 'test') { console.log(err) }
+  next(err)
+}

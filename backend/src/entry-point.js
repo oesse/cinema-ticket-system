@@ -8,6 +8,9 @@ import { initializeMongoose } from './mongo'
 const port = process.env.BACKEND_PORT || 8081
 const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/cinematickets'
 
+process.on('unhandledRejection', (reason) => { throw reason })
+process.on('uncaughtException', err => logger.error(err))
+
 ;(async () => {
   const server = http.createServer(restApi)
 
