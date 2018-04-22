@@ -23,6 +23,7 @@ const Seat = ({
         'seat',
         { 'seat-free': type === 'f' },
         { 'seat-reserved': type === 'r' },
+        { 'seat-unavailable': type === 'n' },
         { 'seat-placeholder': type === ' ' },
       )}
       onClick={handleClick}
