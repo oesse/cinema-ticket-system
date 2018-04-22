@@ -1,7 +1,11 @@
 import React from 'react'
 import classnames from 'classnames'
+import request from 'superagent'
+
 import './showing.styl'
 import './spinner.styl'
+
+const backendUriPrefix = 'http://localhost:8081'
 
 const Seat = ({ type }) => (
   <div className={classnames(
@@ -30,14 +34,24 @@ export default class Showing extends React.Component {
   }
 
   loadFloorplan() {
-    setTimeout(() => this.setState({ isPending: false }), 1000)
+    request
+      .get(`${backendUriPrefix}/floorplan`)
+      .then(({ body: floorPlan }) => {
+        this.setState({ isPending: false, floorPlan })
+      })
+      .catch(() => {
+        this.setState({ isPending: false, hasError: true })
+      })
   }
   render() {
     if (this.state.isPending) {
       return <Spinner />
     }
+    if (this.state.hasError) {
+      return <div>There was an error fetching the data</div>
+    }
 
-    const { floorPlan } = this.props
+    const { floorPlan } = this.state
     return (
       <div className="showing">
         <h1>Cinema Ticket System</h1>
