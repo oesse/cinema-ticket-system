@@ -75,6 +75,7 @@ export default class Showing extends React.Component {
       .then(({ body: floorPlan }) => {
         this.setState({ floorPlan })
       })
+      .catch(() => alert('seat was alread reserved'))
   }
   render() {
     if (this.state.isPending) {
