@@ -63,7 +63,15 @@ export default class Showing extends React.Component {
       })
   }
   toggleSeat(seat) {
-    console.log(seat)
+    const { row, number, type } = seat
+    if (type === 'f') {
+      request
+        .post(`${backendUriPrefix}/reserve-seat`)
+        .send({ row, number })
+        .then(({ body: floorPlan }) => {
+          this.setState({ floorPlan })
+        })
+    }
   }
   render() {
     if (this.state.isPending) {
