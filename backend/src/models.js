@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { now } from './time'
 
 const showingSchema = mongoose.Schema({
   date: Date,
@@ -14,7 +15,7 @@ class ShowingClass {
     if (!this.reservations) {
       this.reservations = {}
     }
-    this.reservations[key] = { row, number }
+    this.reservations[key] = { row, number, date: now() }
     this.markModified('reservations')
   }
   cancelReservation(row, number) {

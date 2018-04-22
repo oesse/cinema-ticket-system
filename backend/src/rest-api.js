@@ -6,6 +6,9 @@ import cors from 'cors'
 import { logRequestErrors } from './logger'
 import { Showing } from './models'
 import getReservedFloorPlan from './get-reserved-floor-plan'
+import removeExpiredReservations from './remove-expired-reservations'
+
+const reservationLimit = 10
 
 // TODO: getShowingById
 async function getShowing() {
@@ -13,9 +16,15 @@ async function getShowing() {
   if (!showing) {
     showing = new Showing({
       date: new Date(2018, 4, 22, 22, 0),
-      reservation: [],
     })
   }
+
+  const currentReservations = removeExpiredReservations(showing.reservations, reservationLimit)
+  if (currentReservations !== showing.reservations) {
+    showing.reservations = currentReservations
+    await showing.save()
+  }
+
   return showing
 }
 
