@@ -13,8 +13,4 @@ describe('component App', () => {
   it('renders', () => {
     expect(component).to.be.present()
   })
-
-  it('displays a headline', () => {
-    expect(component.find('h1')).to.be.present()
-  })
 })
