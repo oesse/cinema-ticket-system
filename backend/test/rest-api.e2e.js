@@ -14,7 +14,7 @@ describe('GET /floorplan', () => {
 })
 
 describe('POST /reserve-seat', () => {
-  it.skip('sets the given seat to reserved and returns the new floorplan', async () => {
+  it('sets the given seat to reserved and returns the new floorplan', async () => {
     const { body } = await request(api)
       .post('/reserve-seat')
       .send({ row: 1, number: 1 })
