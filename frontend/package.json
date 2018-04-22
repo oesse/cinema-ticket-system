@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "babel -d lib src",
+    "build": "webpack",
     "start": "webpack-dev-server --config ./webpack.config.js --mode development",
     "lint": "eslint",
     "lint:all": "eslint src test",
