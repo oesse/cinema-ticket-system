@@ -1,12 +1,14 @@
 import React from 'react'
 import classnames from 'classnames'
 import request from 'superagent'
+import uuid from 'uuid'
 
 import withSeatNumbers from './with-seat-numbers'
 import Spinner from './spinner'
 import './showing.styl'
 
 const backendUriPrefix = 'http://localhost:8081'
+const userId = uuid()
 
 const Seat = ({
   row, number, type, onClick,
@@ -55,6 +57,7 @@ export default class Showing extends React.Component {
   loadFloorplan() {
     request
       .get(`${backendUriPrefix}/floorplan`)
+      .query({ userId })
       .then(({ body: floorPlan }) => {
         this.setState({ isPending: false, floorPlan })
       })
@@ -67,7 +70,7 @@ export default class Showing extends React.Component {
     const endpoint = type === 'f' ? 'reserve-seat' : 'cancel-seat'
     request
       .post(`${backendUriPrefix}/${endpoint}`)
-      .send({ row, number })
+      .send({ row, number, userId })
       .then(({ body: floorPlan }) => {
         this.setState({ floorPlan })
       })
