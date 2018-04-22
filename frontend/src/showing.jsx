@@ -20,6 +20,7 @@ const Seat = ({
       className={classnames(
         'seat',
         { 'seat-free': type === 'f' },
+        { 'seat-reserved': type === 'r' },
         { 'seat-placeholder': type === ' ' },
       )}
       onClick={handleClick}
