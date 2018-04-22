@@ -17,6 +17,16 @@ module.exports = {
         test: /\.styl$/,
         use: ['style-loader', 'css-loader', 'stylus-loader'],
       },
+      {
+        test: /\.(gif|png|jp(e*)g|svg)$/,
+        use: [{
+          loader: 'url-loader',
+          options: {
+            limit: 8000,
+            name: 'images/[hash]-[name].[ext]',
+          },
+        }],
+      },
     ],
   },
   resolve: {
