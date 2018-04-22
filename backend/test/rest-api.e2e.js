@@ -1,5 +1,5 @@
 import { expect } from 'chai'
-import { OK } from 'http-status-codes'
+import { OK, CONFLICT } from 'http-status-codes'
 import request from 'supertest'
 
 import api from '../src/rest-api'
@@ -44,6 +44,22 @@ describe('POST /reserve-seat', () => {
 
     const [firstRow] = body
     expect(firstRow).to.equal('  rfrfffffff')
+  })
+
+  context('when seat is already reserved', () => {
+    beforeEach('reserve seat', async () => {
+      await request(api)
+        .post('/reserve-seat')
+        .send({ row: 1, number: 1, userId })
+        .expect(OK)
+    })
+
+    it('returns CONFLICT', async () => {
+      await request(api)
+        .post('/reserve-seat')
+        .send({ row: 1, number: 1, userId })
+        .expect(CONFLICT)
+    })
   })
 })
 

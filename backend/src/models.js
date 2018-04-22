@@ -15,6 +15,13 @@ class ShowingClass {
     if (!this.reservations) {
       this.reservations = {}
     }
+
+    if (this.reservations[key]) {
+      const err = new Error('seat already reserved')
+      err.type = 'already-reserved'
+      throw err
+    }
+
     this.reservations[key] = {
       userId, row, number, date: now(),
     }
