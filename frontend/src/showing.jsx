@@ -88,16 +88,17 @@ export default class Showing extends React.Component {
     const { floorPlan } = this.state
     return (
       <div className="showing">
-        <h1>Cinema Ticket System</h1>
-        <p>Choose your seats</p>
-        {
-          floorPlan.map((seats, idx) => (<Row
-            key={idx}
-            row={idx + 1}
-            seats={seats}
-            onClick={this.toggleSeat}
-          />))
-        }
+        <p className="leading">Choose your seats:</p>
+        <div className="floorplan">
+          {
+            floorPlan.map((seats, idx) => (<Row
+              key={idx}
+              row={idx + 1}
+              seats={seats}
+              onClick={this.toggleSeat}
+            />))
+          }
+        </div>
       </div>)
   }
 }

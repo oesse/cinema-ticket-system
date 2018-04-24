@@ -1,0 +1,59 @@
+with-borders()
+  border: 1px solid lightgray
+
+$color_bg = #ebebeb
+$color-link = #005522
+$color-link--hover = #003322
+
+#app
+  display: grid
+  margin: 1em auto
+  max-width: 780px
+  grid-template-columns: 10em 1em auto
+  grid-template-rows: auto
+  grid-template-areas: "header header header" "nav .  main" "footer footer footer"
+
+header
+  grid-area: header
+  margin: 0 0 1em 0
+  background: $color_bg
+  with-borders()
+
+  .title
+    font-size: 1.5em
+    font-weight: bold
+    text-align: right
+    padding: 1em 5% 0 1em
+
+  .subtitle
+    text-align: right
+    padding: 0 5% 1.5em 1.5em
+
+.link-button
+  background: none
+  border: none
+  cursor: pointer
+  color: $color-link
+  &:hover
+    color: $color-link--hover
+
+nav
+  grid-area: nav
+  background: $color_bg
+  with-borders()
+
+  .nav-list
+    list-style: none
+    padding: 0.5em
+
+    li
+      margin: 0.2em 0
+
+footer
+  grid-area: footer
+  with-borders()
+
+
+main
+  grid-area: main
+  padding: 0.5em
